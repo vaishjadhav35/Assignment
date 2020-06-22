@@ -66,6 +66,39 @@ public class ModuleDetailsActivity extends AppCompatActivity implements
     }
 
 
+    @OnClick({R.id.btn_edit, R.id.btn_save})
+    void onClick(View view) {
+        switch (view.getId()){
+
+            case R.id.btn_edit:
+                edtDescription.setCursorVisible(true);
+                edtDescription.setFocusableInTouchMode(true);
+                edtDescription.requestFocus();
+                edtDescription.setSelection(edtDescription.getText().length());
+                InputMethodManager imm = (InputMethodManager)this.getSystemService(Service.INPUT_METHOD_SERVICE);
+                imm.showSoftInput( edtDescription, 0);
+                break;
+            case R.id.btn_save:
+                realm.beginTransaction();
+                if (isValidate())
+                    if (realm.where(ModuleEdited.class).equalTo("id", module_id).findFirst()!=null) {
+                        ModuleEdited edited = new ModuleEdited();
+                        edited.setId(module_id);
+                        edited.setText(edtDescription.getText().toString());
+                        realm.insertOrUpdate(edited);
+                        Log.d("TAG", "onClick: added");
+
+                    }else {
+                        ModuleEdited moduleEdited = realm.createObject(ModuleEdited.class);
+                        moduleEdited.setId(module_id);
+                        moduleEdited.setText(edtDescription.getText().toString());
+                        Utils.showAlert(this, getString(R.string.save_db_msg));
+
+                    }
+                realm.commitTransaction();
+                break;
+        }
+    }
 
     private boolean isValidate() {
         //Check empty fields
