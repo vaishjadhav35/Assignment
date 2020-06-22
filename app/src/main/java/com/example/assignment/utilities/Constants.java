@@ -1,4 +1,4 @@
-package com.testmodule.utilities;
+package com.example.assignment.utilities;
 
 public class Constants {
 

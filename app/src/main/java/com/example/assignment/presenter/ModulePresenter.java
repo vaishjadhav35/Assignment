@@ -1,4 +1,4 @@
-package com.testmodule.presenter;
+package com.example.assignment.presenter;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,9 +8,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.assignment.module.Modules;
+import com.example.assignment.utilities.Constants;
 import com.google.gson.Gson;
-import com.testmodule.module.Modules;
-import com.testmodule.utilities.Constants;
+
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,35 +75,7 @@ public class ModulePresenter {
         VolleySingleton.getInstance(context).addToRequestQueue(jsonArrayRequest);
     }
 
-    public void getModuleListDetails(int id){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
-                Constants.MODULE_DETAILS_API + id, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
 
-                if (response != null){
-                    try {
-                        int id = response.getInt("id");
-                        String text = response.getString("text");
-                        moduleListListener.success(id, text);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }else {
-                    moduleListListener.error("Response not available");
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        // Add JsonArrayRequest to the RequestQueue
-        VolleySingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
-    }
 
 
 }
