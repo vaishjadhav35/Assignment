@@ -76,6 +76,34 @@ public class ModulePresenter {
     }
 
 
+    public void getModuleListDetails(int id){
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,
+                Constants.MODULE_DETAILS_API + id, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
 
+                if (response != null){
+                    try {
+                        int id = response.getInt("id");
+                        String text = response.getString("text");
+                        moduleListListener.success(id, text);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else {
+                    moduleListListener.error("Response not available");
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+            }
+        });
+
+        // Add JsonArrayRequest to the RequestQueue
+        VolleySingleton.getInstance(context).addToRequestQueue(jsonObjectRequest);
+    }
 
 }

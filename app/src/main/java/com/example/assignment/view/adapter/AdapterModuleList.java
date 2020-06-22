@@ -25,11 +25,13 @@ public class AdapterModuleList extends RecyclerView.Adapter<AdapterModuleList.Vi
 
     private Context context;
     private List<Modules> modulesList;
+    private ModuleDetailsListener moduleDetailsListener;
 
 
     public AdapterModuleList(Context context, List<Modules> modulesList) {
         this.context = context;
         this.modulesList = modulesList;
+        moduleDetailsListener = (ModuleDetailsListener) context;
     }
 
     @NonNull
@@ -51,7 +53,12 @@ public class AdapterModuleList extends RecyclerView.Adapter<AdapterModuleList.Vi
                 .load(modulesList.get(position).getAvatar())
                 .into(holder.ivAvatar);
 
-
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moduleDetailsListener.onModuleClick(modulesList.get(position).getId());
+            }
+        });
     }
 
     @Override
@@ -80,7 +87,10 @@ public class AdapterModuleList extends RecyclerView.Adapter<AdapterModuleList.Vi
     }
 
 
+    public interface ModuleDetailsListener {
 
+        void onModuleClick(int id);
+    }
 
 
 }

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.assignment.R;
@@ -19,7 +20,7 @@ import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity
-         implements ModulePresenter.moduleListListener{
+         implements ModulePresenter.moduleListListener, AdapterModuleList.ModuleDetailsListener{
 
         @BindView(R.id.rv_module_list)
         RecyclerView rvModuleList;
@@ -63,4 +64,9 @@ public class MainActivity extends AppCompatActivity
             //No use here
         }
 
+    @Override
+    public void onModuleClick(int id) {
+        //start details activity
+        startActivity(new Intent(this, ModuleDetailsActivity.class).putExtra("id", id));
     }
+}
